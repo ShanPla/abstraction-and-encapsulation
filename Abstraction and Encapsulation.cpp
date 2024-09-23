@@ -191,4 +191,5 @@ int main(){
 		}
 	}
 	return 0;
+	tite ni shan maliit
 }
