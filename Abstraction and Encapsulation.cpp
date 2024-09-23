@@ -30,7 +30,7 @@ class Account{
 			isvalid = false;
 			while(!(isvalid)){
 			
-			cout<<"Please input the amount to be deposited: ";
+			cout<<"\nPlease input the amount to be deposited: ";
 			cin>>deposit;
 			
 			if(cin.fail()){	
@@ -39,6 +39,7 @@ class Account{
 				system("CLS");		
 		}
 			if(deposit>0){
+				cout<<"Successfully deposited!"<<endl;
 				isvalid = true;
 			}
 			
@@ -54,6 +55,7 @@ class Account{
 			isvalid = false;
 			while(!(isvalid)){
 			
+			cout<<"\nYour balance is: "<<balance<<endl;
 			cout<<"Please input the amount to be withdrawed: ";
 			cin>>withdraw;
 			
@@ -63,9 +65,11 @@ class Account{
 				system("CLS");		
 		}
 			if(withdraw>balance){
-				cout<<"\nError. Amount to be withdrawn must not exceed balance.\n"<<endl;
+				cout<<"\nError. Amount to be withdrawn must not exceed balance."<<endl;
+				return;
 			}
-			else if(withdraw>0){
+			if(withdraw>0){
+				cout<<"Successfully withdrawn!"<<endl;
 				isvalid = true;
 			}
 			
@@ -74,8 +78,7 @@ class Account{
 			}	
 		}
 		balance -= withdraw;
-		}
-		
+		}		
 };
 
 class SavingsAccount : public Account{
@@ -86,8 +89,7 @@ class SavingsAccount : public Account{
 		void accBalance() override {
 			
         	cout << "This is the Savings Account balance: " << getBalance() << " php." << endl;
-    }
-		
+    }		
 	};
 	
 class CurrentAccount : public Account{
@@ -98,8 +100,7 @@ class CurrentAccount : public Account{
 		void accBalance() override {
 			
         	cout << "This is the Current Account balance: " << getBalance() << " php." << endl;
-    }
-		
+    }		
 	};	
 	
 void SubMenu(Account &account) {
@@ -150,7 +151,7 @@ void SubMenu(Account &account) {
 int main(){
 	
 	SavingsAccount savings(1000);
-	CurrentAccount current(0);
+	CurrentAccount current(10);
 	int choice;
 	bool entry = false;
 
