@@ -64,6 +64,10 @@ class Account{
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				system("CLS");		
 		}
+			if(withdraw>balance){
+				cout<<"\nAmount to be withdrawed must not exceed balance."<<endl;
+				return;
+			}
 			if(withdraw>0){
 				valid = true;
 			}
@@ -170,6 +174,7 @@ int main(){
 			
 		cout<<"Enter choice: ";
 		cin>>subchoice;
+		system("CLS");
 		
 		if(cin.fail()){
 			cin.clear();
@@ -195,7 +200,6 @@ int main(){
 				subvalid = true;
 				break;
 			default:
-				system("CLS");
 				cout << "Invalid Input. Please try again." << endl;
 			}
 	}
