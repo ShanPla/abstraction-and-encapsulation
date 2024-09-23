@@ -1,14 +1,12 @@
 #include <iostream>
 #include <limits>
 using namespace std;
-
-	int choice, subchoice;
 		
 class Account{
 
 	private:
 		double balance, deposit, withdraw;
-		bool valid = false;
+		bool isvalid = false;
 		
 	protected:
 		Account(double empBalance) : balance(empBalance){}
@@ -17,20 +15,20 @@ class Account{
 		
 		virtual void accBalance() = 0;
 		
-		int getBalance(){
+		double getBalance(){
 			return balance;
 		}
-		int getDeposit(){
+		double getDeposit(){
 			return deposit;
 		}
-		int getWithdraw(){
+		double getWithdraw(){
 			return withdraw;
 		}
 		
 		void Deposit(){
 		
-			valid = false;
-			while(!(valid)){
+			isvalid = false;
+			while(!(isvalid)){
 			
 			cout<<"Please input the amount to be deposited: ";
 			cin>>deposit;
@@ -41,7 +39,7 @@ class Account{
 				system("CLS");		
 		}
 			if(deposit>0){
-				valid = true;
+				isvalid = true;
 			}
 			
 			else if(deposit<1){
@@ -53,8 +51,8 @@ class Account{
 		
 		void Withdraw(){
 			
-			valid = false;
-			while(!(valid)){
+			isvalid = false;
+			while(!(isvalid)){
 			
 			cout<<"Please input the amount to be withdrawed: ";
 			cin>>withdraw;
@@ -65,11 +63,10 @@ class Account{
 				system("CLS");		
 		}
 			if(withdraw>balance){
-				cout<<"\nAmount to be withdrawed must not exceed balance."<<endl;
-				return;
+				cout<<"\nError. Amount to be withdrawn must not exceed balance.\n"<<endl;
 			}
-			if(withdraw>0){
-				valid = true;
+			else if(withdraw>0){
+				isvalid = true;
 			}
 			
 			else if(withdraw<1){
@@ -82,52 +79,79 @@ class Account{
 };
 
 class SavingsAccount : public Account{
-	
-	private:
-		double savings;
-	
+		
 	public:
 		SavingsAccount(double balance) : Account(balance){}
 	
 		void accBalance() override {
 			
-			savings = getBalance();
-        	cout << "This is the Savings Account balance: " << savings << " php." << endl;
+        	cout << "This is the Savings Account balance: " << getBalance() << " php." << endl;
     }
 		
 	};
 	
 class CurrentAccount : public Account{
 	
-	private:
-		double savings;
-	
 	public:
 		CurrentAccount(double balance) : Account(balance){}
 	
 		void accBalance() override {
 			
-			savings = getBalance();
-        	cout << "This is the Current Account balance: " << savings << " php." << endl;
+        	cout << "This is the Current Account balance: " << getBalance() << " php." << endl;
     }
 		
 	};	
 	
-void SubMenu(){
+void SubMenu(Account &account) {
+	
+    int subchoice;
+    bool subvalid = false;
 
-		cout<<"\n\tSub Menu"<<endl;
-		cout<<"[1] - Deposit"<<endl;
-		cout<<"[2] - Withdraw"<<endl;
-		cout<<"[3] - Check Balance"<<endl;
-		cout<<"[4] - Back"<<endl;
+    while (!subvalid) {
+        cout << "\n\tSub Menu" << endl;
+        cout << "[1] - Deposit" << endl;
+        cout << "[2] - Withdraw" << endl;
+        cout << "[3] - Check Balance" << endl;
+        cout << "[4] - Back" << endl;
+        cout << "Enter choice: ";
+        cin >> subchoice;
 
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please try again." << endl;
+        }
+		 else 
+		 {
+            switch (subchoice) 
+			{
+                case 1:
+                    account.Deposit();
+                    break;
+                case 2:
+                    account.Withdraw();
+                    break;
+                case 3:
+                    account.accBalance();
+                    break;
+                case 4:
+                	system("CLS");
+                    cout << "Going back to main menu...\n";
+                    subvalid = true;
+                    break;
+                default:
+                    cout << "Invalid choice. Please try again." << endl;
+                    break;
+            }
+        }
+    }
 }
 
 int main(){
 	
 	SavingsAccount savings(1000);
 	CurrentAccount current(0);
-	
+	int choice;
 	bool entry = false;
 
 	while(entry == false){
@@ -145,15 +169,17 @@ int main(){
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			system("CLS");
-		
+			continue;
 	}
 	
 	switch (choice){
 			case 1:
 				cout<<"\nSavings Account"<<endl;
+				SubMenu(savings);
 				break;
 			case 2: 
 				cout<<"\nCurrent Account"<<endl;
+				SubMenu(current);
 				break;
 			case 3:
 				cout<<"Terminating program...";
@@ -163,70 +189,6 @@ int main(){
 				system("CLS");
 				cout << "Invalid Input. Please try again." << endl;
 		}
-	
-	if(choice == 1 || choice == 2){
-	
-	bool subvalid = false;
-		
-	while (!(subvalid)){
-		
-		SubMenu();
-			
-		cout<<"Enter choice: ";
-		cin>>subchoice;
-		system("CLS");
-		
-		if(cin.fail()){
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			system("CLS");
-		}
-		
-		if(choice == 1){
-		
-		switch (subchoice){
-			case 1:
-				savings.Deposit();
-				break;
-			case 2:
-				savings.Withdraw();
-				break;
-			case 3:
-				savings.accBalance();
-				break;
-			case 4:
-				system("CLS");
-				cout << "Going Back...\n" << endl;
-				subvalid = true;
-				break;
-			default:
-				cout << "Invalid Input. Please try again." << endl;
-			}
 	}
-		if(choice == 2){
-		
-		switch (subchoice){
-			case 1:
-				current.Deposit();
-				break;
-			case 2:
-				current.Withdraw();
-				break;
-			case 3:
-				current.accBalance();
-				break;
-			case 4:
-				system("CLS");
-				cout << "Going Back...\n" << endl;
-				subvalid = true;
-				break;
-			default:
-				system("CLS");
-				cout << "Invalid Input. Please try again." << endl;
-			}
-		}
-	}
+	return 0;
 }
-}
-}
-
