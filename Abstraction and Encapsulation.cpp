@@ -2,10 +2,11 @@
 #include <limits>
 using namespace std;
 		
+	int choice;
 class Account{
 
 	private:
-		double balance, deposit, withdraw;
+		double balance, deposit, withdraw, minimum = 1000;
 		bool isvalid = false;
 		
 	protected:
@@ -17,12 +18,6 @@ class Account{
 		
 		double getBalance(){
 			return balance;
-		}
-		double getDeposit(){
-			return deposit;
-		}
-		double getWithdraw(){
-			return withdraw;
 		}
 		
 		void Deposit(){
@@ -63,6 +58,15 @@ class Account{
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				system("CLS");		
+		}
+		if(choice == 1){
+			if(withdraw>minimum){
+				cout<<"\nInvalid. Savings Account must maintain atleast 1000php."<<endl;
+				return;
+			}
+			else{
+				continue;
+			}
 		}
 			if(withdraw>balance){
 				cout<<"\nError. Amount to be withdrawn must not exceed balance."<<endl;
@@ -150,13 +154,11 @@ void SubMenu(Account &account) {
 
 int main(){
 	
-	SavingsAccount savings(1000);
-	CurrentAccount current(10);
-	int choice;
+	SavingsAccount savings(2000);
+	CurrentAccount current(500);
 	bool entry = false;
 
-	while(entry == false){
-		
+	while(entry == false){		
 		cout<<"\tMain Menu"<<endl;
 		cout<<"[1] - Saving Account"<<endl;
 		cout<<"[2] - Current Account"<<endl;
@@ -171,8 +173,7 @@ int main(){
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			system("CLS");
 			continue;
-	}
-	
+		}	
 	switch (choice){
 			case 1:
 				cout<<"\nSavings Account"<<endl;
