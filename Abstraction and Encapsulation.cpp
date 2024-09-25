@@ -9,6 +9,7 @@ class Account{
 		double balance, deposit, withdraw, minimum = 1000;
 		bool isvalid = false;
 		
+		
 	protected:
 		Account(double empBalance) : balance(empBalance){}
 		
@@ -51,7 +52,7 @@ class Account{
 			while(!(isvalid)){
 			
 			cout<<"\nYour balance is: "<<balance<<endl;
-			cout<<"Please input the amount to be withdrawed: ";
+			cout<<"Please input the amount to be withdrawn: ";
 			cin>>withdraw;
 			
 			if(cin.fail()){	
@@ -60,14 +61,11 @@ class Account{
 				system("CLS");		
 		}
 		if(choice == 1){
-			if(withdraw>minimum){
+			if(balance-withdraw < minimum){
 				cout<<"\nInvalid. Savings Account must maintain atleast 1000php."<<endl;
 				return;
 			}
-			else{
-				continue;
-			}
-		}
+		}	
 			if(withdraw>balance){
 				cout<<"\nError. Amount to be withdrawn must not exceed balance."<<endl;
 				return;
@@ -172,6 +170,7 @@ int main(){
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			system("CLS");
+			cout << "Invalid Input. Please try again." << endl;
 			continue;
 		}	
 	switch (choice){
